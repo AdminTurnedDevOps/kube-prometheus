@@ -1,0 +1,17 @@
+version: 1
+
+deploy:
+  steps:
+    setupVariables:
+      after: &login-k8s
+        - aws eks --region=$AWS_DEFAULT_REGION update-kubeconfig --name $CLUSTER_NAME
+        # - kubectl apply --filename https://raw.githubusercontent.com/AdminTurnedDevOps/prometheus-deployment-manifest/master/manifests-all.yaml
+        # - if [[ ! -e helm-v3.10.2-linux-amd64.tar.gz ]]; then; wget https://get.helm.sh/helm-v3.10.2-linux-amd64.tar.gz; fi
+        # - tar -zxvf helm-v3.10.2-linux-amd64.tar.gz
+        # - ./linux-amd64/helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+        # - ./linux-amd64/helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring --create-namespace --set alertmanager.persistentVolume.storageClass="gp2",server.persistentVolume.storageClass="gp2"
+
+destroy:
+  steps:
+    setupVariables:
+      after: *login-k8s
